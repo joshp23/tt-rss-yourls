@@ -2,6 +2,13 @@ tt-rss-yourls
 =============
 
 A plugin for Tiny Tiny RSS, to shorten urls via Yourls
+Requierement
+------------
+* Obviously a working [Tiny Tiny RSS](http://tt-rss.org/) installation
+* Obviously(bis) a working [Yourls](http://Myourls.org) installation
+* php-curl installed on your environnement
+* the will to shorten urls from tt-rss via yourls ;)
+
 
 Installation
 ------------
