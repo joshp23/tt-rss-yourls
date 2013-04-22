@@ -134,9 +134,5 @@ print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" 
 
 	}
 
-        function api_version() {
-                return 2;
-        }
-
 }
 ?>
