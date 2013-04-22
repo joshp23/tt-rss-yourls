@@ -1,6 +1,10 @@
 tt-rss-yourls
 =============
 
+BE AWARE ! 
+This branch is not working on ttrss verison <1.7.9 !!!
+Please use 'master' branch for the latest stable version
+
 A plugin for Tiny Tiny RSS, to shorten urls via Yourls
 Requierement
 ------------
