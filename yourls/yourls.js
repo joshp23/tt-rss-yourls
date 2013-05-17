@@ -16,8 +16,8 @@
 					title: __("Youlrs Shortened URL"),
 					style: "width: 200px",
 					//content: "<iframe src='"+ti.yourlsurl + "/yourls-api.php" + share_url_query+"' frameborder='0' allowtransparency='true' scrolling='no' height='40px' width='190px'></iframe>",
-					content: '<p align=center>' + ti.shorturl + '<br/><a href="http://twitter.com/share?_=' + ts + '&text=' + param_escape(ti.title) +
-                                        '&url=' + param_escape(ti.shorturl) + '"><img src="/plugins/yourls/tweetshare.png"/></a><br/><a href="http://www.facebook.com/sharer.php?u=' + param_escape(ti.shorturl) + '"><img src="/plugins/yourls/fbshare.png" border=0/></a><br/><a href="http://hootsuite.com/hootlet/load?address='+param_escape(ti.shorturl)+'&title='+param_escape(ti.title)+'"><img src="http://s1.static.hootsuite.com/33797-5102/images/static/socialshare/share-btn-med.png"/></a></p>',
+					content: '<p align=center>' + ti.shorturl + '<br/><a targer="_blank" href="http://twitter.com/share?_=' + ts + '&text=' + param_escape(ti.title) +
+                                        '&url=' + param_escape(ti.shorturl) + '"><img src="/plugins/yourls/tweetshare.png"/></a><br/><a target="_blank" href="http://www.facebook.com/sharer.php?u=' + param_escape(ti.shorturl) + '"><img src="/plugins/yourls/fbshare.png" border=0/></a><br/><a target="_blank" href="http://hootsuite.com/hootlet/load?address='+param_escape(ti.shorturl)+'&title='+param_escape(ti.title)+'"><img src="http://s1.static.hootsuite.com/33797-5102/images/static/socialshare/share-btn-med.png"/></a></p>',
 					});
 				dialog.show();
 			} });
