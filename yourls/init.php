@@ -30,6 +30,11 @@ class Yourls extends Plugin {
 		$this->host->set($this, "Yourls_API", $yourls_api);
 		echo "Value Yourls API set to $yourls_api";
 	}
+
+        function api_version() {
+                return 2;
+        }
+
 	function get_js() {
 		return file_get_contents(dirname(__FILE__) . "/yourls.js");
 	}
@@ -135,4 +140,6 @@ print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" 
 	}
 
 }
+
+
 ?>
