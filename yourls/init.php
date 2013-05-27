@@ -67,7 +67,6 @@ class Yourls extends Plugin {
 		curl_setopt($curl_yourls, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl_yourls, CURLOPT_FOLLOWLOCATION, true);
 		$short_url = curl_exec($curl_yourls) ;
-		curl_close($curl_yourls) ;*/ 
                 curl_setopt($this->curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
                 $short_url = curl_exec($this->curl_yourls) ;
 
