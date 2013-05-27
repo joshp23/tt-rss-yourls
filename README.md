@@ -1,8 +1,7 @@
 tt-rss-yourls
 =============
 
-This plugin is known to be working with the lastest stable version of ttrss 1.7.8.
-For 1.7.9 version please use '1.7.9' branch ;)
+This plugin is known to be working with the lastest stable version of ttrss 1.7.9.
 
 A plugin for Tiny Tiny RSS, to shorten urls via Yourls
 Requierement
