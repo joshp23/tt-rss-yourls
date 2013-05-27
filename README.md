@@ -33,3 +33,12 @@ ENJOY ! ;)
 Info
 ----
 This plugin was originally posted on [this forum thread](http://www.tt-rss.org/forum/viewtopic.php?f=22&t=1429&p=7564) and is initially the work of Beun (has to be said !)
+
+
+
+Thanks
+------
+Thanks to Beun, the original creator of this plugin.
+Thank to code contributors :
+* [chatainsim](https://github.com/chatainsim)
+* [cy8aer](https://github.com/cy8aer)
