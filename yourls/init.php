@@ -1,11 +1,9 @@
 <?php
 class Yourls extends Plugin {
-	private $link;
 	private $host;
 	private $curl_yourls;
 
 	function init($host) {
-		$this->link = $host->get_link();
 		$this->host = $host;
 		$this->curl_yourls = $curl_yourls;
                 $this->curl_yourls = curl_init() ;
@@ -23,10 +21,10 @@ class Yourls extends Plugin {
 				"Beun and acaranta");
 	}
 	function save() {
-		$yourls_url = db_escape_string($this->link, $_POST["yourls_url"]);
+		$yourls_url = db_escape_string($_POST["yourls_url"]);
 		$this->host->set($this, "Yourls_URL", $yourls_url);
 		echo "Value Yourls URL set to $yourls_url<br/>";
-		$yourls_api = db_escape_string($this->link, $_POST["yourls_api"]);
+		$yourls_api = db_escape_string($_POST["yourls_api"]);
 		$this->host->set($this, "Yourls_API", $yourls_api);
 		echo "Value Yourls API set to $yourls_api";
 	}
@@ -50,30 +48,10 @@ class Yourls extends Plugin {
 		return $rv;
 	}
 
-	function getInfoOld() {
-		$id = db_escape_string($this->link, $_REQUEST['id']);
-
-		$result = db_query($this->link, "SELECT title, link
-				FROM ttrss_entries, ttrss_user_entries
-				WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
-
-		if (db_num_rows($result) != 0) {
-			$title = truncate_string(strip_tags(db_fetch_result($result, 0, 'title')),
-					100, '...');
-			$article_link = db_fetch_result($result, 0, 'link');
-		}
-	
-		$yourls_url = $this->host->get($this, "Yourls_URL");
-		$yourls_api = $this->host->get($this, "Yourls_API");
-
-		print json_encode(array("title" => $title, "link" => $article_link,
-					"id" => $id, "yourlsurl" => $yourls_url, "yourlsapi" => $yourls_api));		
-	}
-
 	function getInfo() {
-		$id = db_escape_string($this->link, $_REQUEST['id']);
+		$id = db_escape_string($_REQUEST['id']);
 
-		$result = db_query($this->link, "SELECT title, link
+		$result = db_query("SELECT title, link
 				FROM ttrss_entries, ttrss_user_entries
 				WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
 
@@ -85,7 +63,6 @@ class Yourls extends Plugin {
 	
 		$yourls_url = $this->host->get($this, "Yourls_URL");
 		$yourls_api = $this->host->get($this, "Yourls_API");
-/*		$curl_yourls = curl_init() ;
 		curl_setopt($curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
 		curl_setopt($curl_yourls, CURLOPT_RETURNTRANSFER, true);
 		curl_setopt($curl_yourls, CURLOPT_FOLLOWLOCATION, true);
