@@ -60,15 +60,17 @@ class Yourls extends Plugin {
 					100, '...');
 			$article_link = db_fetch_result($result, 0, 'link');
 		}
-	
+
 		$yourls_url = $this->host->get($this, "Yourls_URL");
 		$yourls_api = $this->host->get($this, "Yourls_API");
 		curl_setopt($curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
 		curl_setopt($curl_yourls, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl_yourls, CURLOPT_FOLLOWLOCATION, true);
+		if (!ini_get('safe_mode') && !ini_get('open_basedir')) {
+			curl_setopt($curl_yourls, CURLOPT_FOLLOWLOCATION, true);
+		}
 		$short_url = curl_exec($curl_yourls) ;
-                curl_setopt($this->curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
-                $short_url = curl_exec($this->curl_yourls) ;
+		curl_setopt($this->curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
+		$short_url = curl_exec($this->curl_yourls) ;
 
 		print json_encode(array("title" => $title, "link" => $article_link,
 					"id" => $id, "yourlsurl" => $yourls_url, "yourlsapi" => $yourls_api, "shorturl" => $short_url));		
