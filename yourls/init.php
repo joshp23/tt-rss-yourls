@@ -16,7 +16,7 @@ class Yourls extends Plugin {
 	}
 
 	function about() {
-		return array("1.1.0",
+		return array("1.1.1",
 				"Shorten article Link using Yourls",
 				"Beun and acaranta");
 	}
@@ -62,15 +62,14 @@ class Yourls extends Plugin {
 	}
 
 	function getInfo() {
-		$id = db_escape_string($_REQUEST['id']);
-
-		$result = db_query("SELECT title, link
-				FROM ttrss_entries, ttrss_user_entries
-				WHERE id = '$id' AND ref_id = id AND owner_uid = " .$_SESSION['uid']);
-
-		if (db_num_rows($result) != 0) {
-			$title = truncate_string(strip_tags(db_fetch_result($result, 0, 'title')),100, '...');
-			$article_link = db_fetch_result($result, 0, 'link');
+		$id = $_REQUEST['id'];
+		$sth = $this->pdo->prepare("SELECT title, link 
+									FROM ttrss_entries, ttrss_user_entries 
+									WHERE id = ? AND ref_id = id  AND owner_uid = ?");
+		$sth->execute([$id, $_SESSION['uid']]);
+		if ($row = $sth->fetch()) {
+			$title = truncate_string(strip_tags($row['title']), 100, '...');
+			$article_link = $row['link'];
 		}
 
 		$yourls_url = $this->host->get($this, "Yourls_URL");
