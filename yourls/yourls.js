@@ -13,7 +13,7 @@ function shareArticleToYourls(id) {
 					id: "YourlsShortLinkDlg"+ts,
 					title: __("Youlrs Shortened URL"),
 					style: "width: 200px",
-					content: '<p align=center>' + ti.shorturl + '<br/><a target="_blank" href="http://twitter.com/share?_=' + ts + '&text=' + encodeURIComponent(ti.title) + '&url=' + encodeURIComponent(ti.shorturl) + '"><img src="/plugins.local/yourls/tweetshare.png"/></a><br/><a target="_blank" href="http://www.facebook.com/sharer.php?u=' + encodeURIComponent(ti.shorturl) + '"><img src="/plugins.local/yourls/fbshare.png" border=0/></a></p>',
+					content: '<p align=center>' + ti.shorturl + '<br/><a target="_blank" href="https://twitter.com/share?_=' + ts + '&text=' + encodeURIComponent(ti.title) + '&url=' + encodeURIComponent(ti.shorturl) + '"><img src="/plugins.local/yourls/tweetshare.png"/></a><br/><a target="_blank" href="https://www.facebook.com/sharer.php?u=' + encodeURIComponent(ti.shorturl) + '"><img src="/plugins.local/yourls/fbshare.png" border=0/></a></p>',
 					});
 				dialog.show();
 			} });
