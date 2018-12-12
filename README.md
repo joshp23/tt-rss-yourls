@@ -1,7 +1,7 @@
 tt-rss-yourls
 =============
 
-This plugin is known to be working with the lastest stable version of ttrss 1.7.9.
+This plugin is known to be working with the lastest stable version of ttrss v18.12 (fca78f7).
 for changes please use the 'dev' branch 
 
 A plugin for Tiny Tiny RSS, to shorten urls via Yourls
@@ -15,7 +15,7 @@ Requierement
 
 Installation
 ------------
-* Copy the *yourls* folder to your tt-rss *plugins/* folder.
+* Copy the *yourls* folder to your tt-rss *plugins.local/* folder.
 * Go to your tt-rss Preference page
 * Under *Plugins* section enable yourls plugin
 * A new pref pane will show up, named ... *Yourls* ;)
@@ -26,7 +26,7 @@ Installation
 
 Usage
 ------
-While on an article, you will see a Y shaped Yourls icon. Clicking on it will bring up a dialog with the shortened URL of the article link. Within the dialog icons to chare this shortened link via Facebook and/or Twitter will also be displayed.
+While on an article, either clicking on the "Y" shaped Yourls icon or using the keyboard shortcut `s+y` will bring up a dialog with the shortened URL of the article link. Within the dialog icons to chare this shortened link via Facebook and/or Twitter will also be displayed.  
 
 ENJOY ! ;)
 
