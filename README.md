@@ -2,7 +2,6 @@ tt-rss-yourls
 =============
 
 This plugin is known to be working with the lastest stable version of ttrss v18.12 (fca78f7).
-for changes please use the 'dev' branch 
 
 A plugin for Tiny Tiny RSS, to shorten urls via Yourls
 Requierement
@@ -20,8 +19,8 @@ Installation
 * Under *Plugins* section enable yourls plugin
 * A new pref pane will show up, named ... *Yourls* ;)
 * In there you will have to enter :
-* * *Yourls base URL* in the form *http://sho.rt*
-* * *Yourls API key* from your installation of yourls
+  * *Yourls base URL* in the form *http://sho.rt*
+  * *Yourls API key* from your installation of yourls
 
 
 Usage
