@@ -12,7 +12,7 @@ class Yourls extends Plugin {
 
 	function about() {
 		return array(
-			"2.0.0",
+			"2.0.1",
 			"Shorten article Link using Yourls",
 			"Beun and acaranta, and joshu@unfettered.net");
 	}
@@ -30,12 +30,11 @@ class Yourls extends Plugin {
 	}
 
 	function save() {
-		$yourls_url = db_escape_string($_POST["yourls_url"]);
+		$yourls_url = $_POST["yourls_url"];
+		$yourls_api = $_POST["yourls_api"];
 		$this->host->set($this, "Yourls_URL", $yourls_url);
-		echo "Value Yourls URL set to $yourls_url<br/>";
-		$yourls_api = db_escape_string($_POST["yourls_api"]);
 		$this->host->set($this, "Yourls_API", $yourls_api);
-		echo "Value Yourls API set to $yourls_api";
+		echo "Ready to Submit to Yourls!";
 	}
 
     function api_version() {
@@ -102,37 +101,39 @@ class Yourls extends Plugin {
 
 	function hook_prefs_tab($args) {
 		if ($args != "prefPrefs") return;
-
-		print "<div dojoType=\"dijit.layout.AccordionPane\" 
-					title=\" <i class='material-icons'>link</i> ".__("Yourls")."\">";
-		print "<br/>";
 		$yourls_url = $this->host->get($this, "Yourls_URL");
 		$yourls_api = $this->host->get($this, "Yourls_API");
-		print "<form dojoType=\"dijit.form.Form\">";
-		print "<script type=\"dojo/method\" event=\"onSubmit\" args=\"evt\">
+		?>
+		<div dojoType="dijit.layout.AccordionPane"
+				title="<i class='material-icons'>link</i><?= __("Yourls") ?>">
+			<br/>
+			<form dojoType="dijit.form.Form">
+				
+				<?= \Controls\pluginhandler_tags($this, "save") ?>
+				<script type="dojo/method" event="onSubmit" args="evt">
 					evt.preventDefault();
 					if (this.validate()) {
-						console.log(dojo.objectToQuery(this.getValues()));
-						new Ajax.Request('backend.php', {
-						parameters: dojo.objectToQuery(this.getValues()),
-						onComplete: function(transport) {
-						notify_info(transport.responseText);
-						}
-						});
+						Notify.progress('Saving YOURLS configuration...', true);
+						xhr.post("backend.php", this.getValues(), (reply) => {
+							Notify.info(reply);
+						})
 					}
-				</script>";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"op\" value=\"pluginhandler\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"method\" value=\"save\">";
-		print "<input dojoType=\"dijit.form.TextBox\" style=\"display : none\" name=\"plugin\" value=\"yourls\">";
-		print "<table width=\"100%\" class=\"prefPrefsList\">";
-		print "<tr><td width=\"40%\">".__("Yourls base URL")."</td>";
-		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"yourls_url\" regExp='^(http|https)://.*' value=\"$yourls_url\"></td></tr>";
-		print "<tr><td width=\"40%\">".__("Yourls API Key")."</td>";
-		print "<td class=\"prefValue\"><input dojoType=\"dijit.form.ValidationTextBox\" required=\"1\" name=\"yourls_api\" value=\"$yourls_api\"></td></tr>";
-		print "</table>";
-		print "<p><button dojoType=\"dijit.form.Button\" type=\"submit\">".__("Save")."</button>";
-		print "</form>";
-		print "</div>"; #pane
+				</script>
+			
+				<table width="100%" class="prefPrefsList">
+				<tr>
+					<td width="40%"><?= __("Yourls base URL") ?></td>
+					<td class="prefValue"><input dojoType="dijit.form.ValidationTextBox" required="1" name="yourls_url" regExp='^(http|https)://.*' value="<?= $yourls_url ?>"></td>
+				</tr>
+				<tr>
+					<td width="40%"><?= __("Yourls API Key") ?></td>
+					<td class="prefValue"><input dojoType="dijit.form.ValidationTextBox" required="1" name="yourls_api" value="<?= $yourls_api ?>"></td>
+				</tr>
+				</table>
+				<?= \Controls\submit_tag(__("Save")) ?>
+			</form>
+		</div>
+		<?php
 	}
 }
 ?>
