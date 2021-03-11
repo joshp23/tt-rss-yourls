@@ -1,14 +1,9 @@
 <?php
 class Yourls extends Plugin {
 	private $host;
-	private $curl_yourls;
 
 	function init($host) {
 		$this->host = $host;
-		$this->curl_yourls = $curl_yourls;
-        $this->curl_yourls = curl_init() ;
-        	curl_setopt($this->curl_yourls, CURLOPT_RETURNTRANSFER, true);
-        	curl_setopt($this->curl_yourls, CURLOPT_FOLLOWLOCATION, true);
 		$host->add_hook($host::HOOK_ARTICLE_BUTTON, $this);
 		$host->add_hook($host::HOOK_PREFS_TAB, $this);
 		$host->add_hook($host::HOOK_HOTKEY_MAP, $this);
@@ -16,13 +11,14 @@ class Yourls extends Plugin {
 	}
 
 	function about() {
-		return array("1.1.1",
-				"Shorten article Link using Yourls",
-				"Beun and acaranta");
+		return array(
+			"2.0.0",
+			"Shorten article Link using Yourls",
+			"Beun and acaranta, and joshu@unfettered.net");
 	}
 
 	function hook_hotkey_map($hotkeys) {
-	$hotkeys['s y'] = 'send_to_yourls';
+		$hotkeys['s y'] = 'send_to_yourls';
 
 		return $hotkeys;
 	}
@@ -68,24 +64,40 @@ class Yourls extends Plugin {
 									WHERE id = ? AND ref_id = id  AND owner_uid = ?");
 		$sth->execute([$id, $_SESSION['uid']]);
 		if ($row = $sth->fetch()) {
+		
 			$title = truncate_string(strip_tags($row['title']), 100, '...');
 			$article_link = $row['link'];
+			$yourls_url = $this->host->get($this, "Yourls_URL");
+			$yourls_url = $yourls_url . "/yourls-api.php";
+			$yourls_api = $this->host->get($this, "Yourls_API");
+			$postfields = array(
+				'signature' => $yourls_api,
+				'action'    => 'shorturl',
+				'format'	=> 'simple',
+				'url'		=> $article_link,
+				'title' 	=> $title,
+			);
+			
+		    $curl_yourls = curl_init();
+		    
+				curl_setopt($curl_yourls, CURLOPT_URL, $yourls_url);
+				curl_setopt($curl_yourls, CURLOPT_HEADER, 0);
+				curl_setopt($curl_yourls, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($curl_yourls, CURLOPT_TIMEOUT, 30);
+				curl_setopt($curl_yourls, CURLOPT_POST, 1);
+				curl_setopt($curl_yourls, CURLOPT_POSTFIELDS,$postfields);
+					
+			if (!ini_get('safe_mode') && !ini_get('open_basedir')) {
+				curl_setopt($curl_yourls, CURLOPT_FOLLOWLOCATION, true);
+			}
+			$short_url = curl_exec($curl_yourls) ;
+			$status = curl_getinfo($curl_yourls, CURLINFO_HTTP_CODE);
+				curl_close($curl_yourls);
+
+			print json_encode(array("status" => $status, "title" => $title, "shorturl" => $short_url));
+		} else {
+			print json_encode(array( "status" => "Database fail" ));
 		}
-
-		$yourls_url = $this->host->get($this, "Yourls_URL");
-		$yourls_api = $this->host->get($this, "Yourls_API");
-
-		curl_setopt($this->curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
-		curl_setopt($this->curl_yourls, CURLOPT_RETURNTRANSFER, true);
-		if (!ini_get('safe_mode') && !ini_get('open_basedir')) {
-			curl_setopt($this->curl_yourls, CURLOPT_FOLLOWLOCATION, true);
-		}
-		$short_url = curl_exec($this->curl_yourls) ;
-
-		curl_setopt($this->curl_yourls, CURLOPT_URL, "$yourls_url/yourls-api.php?signature=$yourls_api&action=shorturl&format=simple&url=".urlencode($article_link)."&title=".urlencode($title)) ;
-		$short_url = curl_exec($this->curl_yourls) ;
-
-		print json_encode(array("title" => $title, "link" => $article_link, "id" => $id, "yourlsurl" => $yourls_url, "yourlsapi" => $yourls_api, "shorturl" => $short_url));		
 	}
 
 	function hook_prefs_tab($args) {
