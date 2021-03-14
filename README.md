@@ -29,6 +29,5 @@ While on an article, either clicking on the "Y" shaped Yourls icon or using the 
 
 ENJOY ! ;)
 
-Info
-----
-This plugin was originally posted on [this forum thread](http://www.tt-rss.org/forum/viewtopic.php?f=22&t=1429&p=7564) and is initially the work of Beun (has to be said !)
+### Tips
+Dogecoin: DARhgg9q3HAWYZuN95DKnFonADrSWUimy3
