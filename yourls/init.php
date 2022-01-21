@@ -48,10 +48,10 @@ class Yourls extends Plugin {
 	function hook_article_button($line) {
 		$article_id = $line["id"];
 
-		$rv = "<img id=\"yourlsImgId\" src=\"plugins.local/yourls/yourls.png\"
-			class='tagsPic' style=\"cursor : pointer\"
-			onclick=\"shareArticleToYourls($article_id)\"
-			title='".__('Send article to Yourls')."'>";
+		$rv = '<img id="yourlsImgId" src="plugins.local/yourls/yourls.png"
+  			class="tagsPic" style="cursor : pointer"
+  			onclick="shareArticleToYourls($article_id)"
+  			title="'.__('Send article to Yourls').'" />';
 
 		return $rv;
 	}
